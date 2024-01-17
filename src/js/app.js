@@ -1,17 +1,14 @@
 // TODO: write your code here
-
-
-export default function orderByProps(obj, order) {
-    const orderArr = [];
-    const sortedOrderArr = [];
-    for (const key in obj) {
-      if (order.includes(key)) {
-        orderArr.push({ key, value: obj[key] });
-      } else {
-        sortedOrderArr.push({ key, value: obj[key] });
-      }
+export default class Validator {
+  validateUsername(name) {
+    const pattern1 = /[a-z]/i.test(name);
+    const pattern2 = /^[^\d_-\W]+[\w-]*[^\d_-\W]$/.test(name);
+    const pattern3 = /[\d]{4}/.test(name);
+    if (pattern1 && pattern2 && !pattern3) {
+      this.name = name;
+      return true;
     }
-    orderArr.sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
-    sortedOrderArr.sort((a, b) => (a.key > b.key ? 1 : -1));
-    return [...orderArr, ...sortedOrderArr];
+    throw new Error('Допустимы только латинские буквы, символы тире -, подчёркивания _ и цифры (0-9). Имя не должно содержать подряд более трёх цифр, а также начинаться и заканчиваться цифрами, символами подчёркивания или тире.');
   }
+}
+
